@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: security
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/market
+    username: postgres
+    password: Kanybek12345
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 8080
+
+token:
+  signing:
+    secret:
+      key: ${SECRET_KEY:b05ae766-de0f-4dc1-986e-7b1585fccced}
