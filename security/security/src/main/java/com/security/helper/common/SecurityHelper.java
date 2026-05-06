@@ -13,16 +13,11 @@ public class SecurityHelper {
     private SecurityHelper() {
     }
 
-    private static Authentication getAuthentication() throws AuthenticationException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated() ||
-                authentication instanceof AnonymousAuthenticationToken)
-            throw new AuthenticationException();
-
-        return authentication;
+    private static Authentication getAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
     }
 
-    public static User getAuthenticatedUser() throws AuthenticationException {
+    public static User getAuthenticatedUser() {
         return ((CustomUserDetails) getAuthentication()
                 .getPrincipal())
                 .user();

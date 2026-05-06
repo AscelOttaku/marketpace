@@ -6,4 +6,6 @@ import org.springframework.http.ResponseEntity;
 public interface AuthManagementObjectCreator extends ObjectCreator {
     ResponseEntity<Response> createAuthenticateSuccessResponse(String accessToken,
                                                                String refreshToken);
+
+    ResponseEntity<Response> createRefreshAccessTokenResponse(String accessToken);
 }

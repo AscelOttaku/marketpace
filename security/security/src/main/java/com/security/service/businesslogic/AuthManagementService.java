@@ -6,4 +6,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface AuthManagementService {
     ResponseEntity<Response> login(UserAuthenticateRequest request);
+
+    ResponseEntity<Response> refreshToken();
 }

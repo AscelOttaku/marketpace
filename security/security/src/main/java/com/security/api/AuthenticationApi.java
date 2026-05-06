@@ -25,4 +25,9 @@ public class AuthenticationApi {
     public ResponseEntity<Response> login(@RequestBody @Valid UserAuthenticateRequest request) {
         return authManagementService.login(request);
     }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<Response> refreshAccessToken() {
+        return authManagementService.refreshToken();
+    }
 }

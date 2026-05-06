@@ -1,5 +1,6 @@
 package com.security.helper.objectcreator.impl;
 
+import com.security.dto.request.auth.RefreshAccessTokenResponse;
 import com.security.dto.response.auth.AuthResponse;
 import com.security.dto.response.common.Response;
 import com.security.helper.objectcreator.AuthManagementObjectCreator;
@@ -22,6 +23,16 @@ public class AuthManagementObjectCreatorImpl implements AuthManagementObjectCrea
                         .data(AuthResponse.builder()
                                 .accessToken(accessToken)
                                 .refreshToken(refreshToken)
+                                .build())
+                        .build());
+    }
+
+    @Override
+    public ResponseEntity<Response> createRefreshAccessTokenResponse(String accessToken) {
+        return ResponseEntity.ok()
+                .body(Response.builder()
+                        .data(RefreshAccessTokenResponse.builder()
+                                .accessToken(accessToken)
                                 .build())
                         .build());
     }

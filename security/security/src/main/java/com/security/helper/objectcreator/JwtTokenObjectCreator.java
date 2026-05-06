@@ -10,5 +10,7 @@ public interface JwtTokenObjectCreator extends ObjectCreator {
 
     String createRefreshToken(User user, Date expiry);
 
-    JwtParser createJwtParser();
+    JwtParser createJwtParserForAccessToken();
+
+    JwtParser createJwtParserForRefreshToken();
 }

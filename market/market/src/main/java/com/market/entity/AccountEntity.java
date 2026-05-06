@@ -14,7 +14,9 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "account")
+@Table(name = "account", indexes = {
+        @Index(name = "idx_account_created_at", columnList = "created_at")
+})
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AccountEntity {
 

@@ -3,23 +3,19 @@ package com.security.config.security;
 import com.security.helper.common.MessageSourceHelper;
 import com.security.helper.security.AuthHelper;
 import com.security.helper.security.JwtHelper;
+import com.security.model.CustomUserDetails;
 import com.security.service.domain.UserService;
-import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.List;
 
 @Slf4j
 @Component
@@ -35,27 +31,29 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain)
-            throws ServletException, IOException {
+                                    FilterChain filterChain) {
+        String requestPath = request.getRequestURI();
+        log.info(messageSource.get("incoming.request"), request.getMethod(), requestPath,
+                request.getQueryString(), request.getHeader("X-Request-ID"));
+        if (authHelper.isPathNotExampted(requestPath, request.getMethod())) {
+            String authHeader = request.getHeader(HEADER_NAME);
+            if (authHelper.hasNotExistAuthHeader(authHeader)) {
+                log.error(messageSource.get("auth.empty.header"));
+                return;
+            }
 
-        String authHeader = request.getHeader(HEADER_NAME);
-        if (authHeader == null || !authHeader.startsWith(BEARER_PREFIX)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        String token = authHeader.substring(BEARER_PREFIX.length());
-        if (jwtHelper.isTokenExpired(token) || !jwtHelper.isSignatureValid(token)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        try {
-            var email = jwtHelper.extractLogin(token);
-            UserDetails customUserDetails = userService.loadByLogin(email);
-            filterChain.doFilter(request, response);
-        } catch (Exception e) {
-            handleJwtException(e);
+            String token = authHeader.substring(BEARER_PREFIX.length());
+            var isRefreshToken = authHelper.isRefreshTokenRequest(requestPath);
+            try {
+                var email = jwtHelper.extractLogin(token, isRefreshToken);
+                var authUserDetails = userService.loadByLogin(email);
+                authHelper.authenticate(authUserDetails);
+                filterChain.doFilter(request, response);
+            } catch (Exception e) {
+                handleJwtException(response, isRefreshToken, e.getMessage());
+            } finally {
+                log.info(messageSource.get("outgoing.response"), response.getStatus());
+            }
         }
     }
 

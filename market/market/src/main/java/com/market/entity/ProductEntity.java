@@ -10,7 +10,9 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @Entity
-@Table(name = "product")
+@Table(name = "product", indexes = {
+        @Index(name = "idx_product_name", columnList = "name")
+})
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductEntity {
 

@@ -10,7 +10,10 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
+@Table(name = "users", indexes = {
+        @Index(name = "idx_user_email", columnList = "email", unique = true),
+        @Index(name = "idx_user_msisdn", columnList = "msisdn", unique = true)
+})
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserEntity {
 

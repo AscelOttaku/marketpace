@@ -2,6 +2,7 @@ package com.security.service.businesslogic.impl;
 
 import com.security.dto.request.auth.UserAuthenticateRequest;
 import com.security.dto.response.common.Response;
+import com.security.helper.common.SecurityHelper;
 import com.security.helper.objectcreator.AuthManagementObjectCreator;
 import com.security.helper.security.JwtHelper;
 import com.security.model.CustomUserDetails;
@@ -30,5 +31,12 @@ public class AuthManagementServiceImpl implements AuthManagementService {
         String accessToken = jwtHelper.generateAccessToken(authDetails.user());
         String refreshToken = jwtHelper.generateRefreshToken(authDetails.user());
         return authManagementObjectCreator.createAuthenticateSuccessResponse(accessToken, refreshToken);
+    }
+
+    @Override
+    public ResponseEntity<Response> refreshToken() {
+        var user = SecurityHelper.getAuthenticatedUser();
+        String accessToken = jwtHelper.generateAccessToken(user);
+        return authManagementObjectCreator.createRefreshAccessTokenResponse(accessToken);
     }
 }

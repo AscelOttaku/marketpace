@@ -6,8 +6,8 @@ CREATE TABLE users
     surname    VARCHAR(100),
     patronymic VARCHAR(100),
 
-    msisdn     VARCHAR(20)  NOT NULL UNIQUE,
-    email      VARCHAR(255) NOT NULL UNIQUE,
+    msisdn     VARCHAR(20)  NOT NULL,
+    email      VARCHAR(255) NOT NULL,
     password   VARCHAR(255) NOT NULL,
     role       varchar(100),
 

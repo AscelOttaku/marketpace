@@ -1,9 +1,6 @@
 package com.security.helper.security;
 
-import com.security.helper.objectcreator.AuthManagementObjectCreator;
 import com.security.helper.objectcreator.JwtTokenObjectCreator;
-import com.security.helper.objectcreator.impl.AuthManagementObjectCreatorImpl;
-import com.security.helper.objectcreator.impl.JwtTokenObjectCreatorImpl;
 import com.security.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -53,8 +50,9 @@ public class JwtHelper {
         return jwtTokenObjectCreator.createRefreshToken(user, expiry);
     }
 
-    public String extractLogin(String token) {
-        var jwtParser = jwtTokenObjectCreator.createJwtParser();
+    public String extractLogin(String token, boolean isRefreshToken) {
+        var jwtParser = isRefreshToken ? jwtTokenObjectCreator.createJwtParserForRefreshToken() :
+                jwtTokenObjectCreator.createJwtParserForAccessToken();
         var email = (String) jwtParser.parseClaimsJws(token)
                 .getBody()
                 .get(DATA);
@@ -116,18 +114,6 @@ public class JwtHelper {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-    }
-
-    /**
-     * Проверка токена на валидность
-     *
-     * @param token       токен
-     * @param userDetails данные пользователя
-     * @return true, если токен валиден
-     */
-    public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String userName = extractLogin(token);
-        return (userName.equals(userDetails.getUsername())) && isTokenExpired(token);
     }
 
     /**

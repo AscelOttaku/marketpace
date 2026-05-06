@@ -20,6 +20,7 @@ public class JwtTokenObjectCreatorImpl implements JwtTokenObjectCreator {
     private static final String SUBJECT_REFRESH_TOKEN = "Refresh token";
     public static final String ROLE = "role";
     public static final String DATA = "data";
+    public static final String ISSUER = "security-service";
 
     EncryptData encryptData;
 
@@ -32,6 +33,7 @@ public class JwtTokenObjectCreatorImpl implements JwtTokenObjectCreator {
                 .setIssuedAt(new Date())
                 .setExpiration(expiry)
                 .signWith(encryptData.getSigningKey(), encryptData.getSignature())
+                .setIssuer(ISSUER)
                 .compact();
     }
 
@@ -44,13 +46,25 @@ public class JwtTokenObjectCreatorImpl implements JwtTokenObjectCreator {
                 .setIssuedAt(new Date())
                 .setExpiration(expiry)
                 .signWith(encryptData.getSigningKey(), encryptData.getSignature())
+                .setIssuer(ISSUER)
                 .compact();
     }
 
     @Override
-    public JwtParser createJwtParser() {
+    public JwtParser createJwtParserForAccessToken() {
         return Jwts.parserBuilder()
                 .setSigningKey(encryptData.getSigningKey())
+                .requireSubject(SUBJECT_ACCESS_TOKEN)
+                .requireIssuer(ISSUER)
+                .build();
+    }
+
+    @Override
+    public JwtParser createJwtParserForRefreshToken() {
+        return Jwts.parserBuilder()
+                .setSigningKey(encryptData.getSigningKey())
+                .requireSubject(SUBJECT_REFRESH_TOKEN)
+                .requireIssuer(ISSUER)
                 .build();
     }
 }
