@@ -19,7 +19,8 @@ public class UserApi {
     UserManagementService userManagementService;
 
     @PostMapping("/register")
-    public ResponseEntity<Response> register(@RequestBody @Valid UserRegisterRequest request,
+    public ResponseEntity<Response> register(@RequestBody @Valid
+                                             UserRegisterRequest request,
                                              BindingResult bindingResult) {
         return userManagementService.register(request, bindingResult);
     }

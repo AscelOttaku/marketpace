@@ -19,3 +19,13 @@ token:
   signing:
     secret:
       key: ${SECRET_KEY:b05ae766-de0f-4dc1-986e-7b1585fccced}
+
+access:
+  token:
+    expiration:
+      date: 24
+
+refresh:
+  token:
+    expiration:
+      date: 168

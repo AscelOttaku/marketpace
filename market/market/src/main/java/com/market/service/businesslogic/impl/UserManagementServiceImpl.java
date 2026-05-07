@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
 @Service
@@ -25,6 +26,7 @@ public class UserManagementServiceImpl implements UserManagementService {
     UserManagementObjectCreator userManagementObjectCreator;
 
     @Override
+    @Transactional
     public ResponseEntity<Response> register(UserRegisterRequest request,
                                              BindingResult bindingResult) {
         var userRegisterModel = userManagementObjectCreator.createUserSaveModel(request);

@@ -43,7 +43,7 @@ public class EncryptData {
 
     @NonFinal
     @Value("${public.key.path}")
-    String publicLeyPath;
+    String publicKeyPath;
 
     @NonFinal
     PublicKey publicKey;
@@ -92,7 +92,7 @@ public class EncryptData {
     }
 
     private void initPublicKey() {
-        try (var inputStream = getClass().getClassLoader().getResourceAsStream(publicLeyPath)) {
+        try (var inputStream = getClass().getClassLoader().getResourceAsStream(publicKeyPath)) {
             var key = new String(inputStream.readAllBytes(), Charset.defaultCharset());
             var publicKeyPEM = key.replace("-----BEGIN PUBLIC KEY-----", "")
                     .replaceAll(System.lineSeparator(), "")

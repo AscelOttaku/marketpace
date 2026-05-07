@@ -2,6 +2,7 @@ package com.market.helper.objectcreator.impl;
 
 import com.market.dto.request.auth.UserRegisterRequest;
 import com.market.dto.request.auth.UserUpdateRequest;
+import com.market.enums.AccountStatus;
 import com.market.helper.objectcreator.UserManagementObjectCreator;
 import com.market.model.Account;
 import com.market.model.User;
@@ -41,6 +42,7 @@ public class UserManagementObjectCreatorImpl implements UserManagementObjectCrea
     public Account createAccountSaveModel(User user) {
         return Account.builder()
                 .user(user)
+                .status(AccountStatus.ACTIVE)
                 .balance(0.00)
                 .build();
     }

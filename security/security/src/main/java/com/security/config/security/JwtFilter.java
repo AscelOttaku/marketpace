@@ -31,7 +31,7 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain) {
+                                    FilterChain filterChain) throws ServletException, IOException {
         String requestPath = request.getRequestURI();
         log.info(messageSource.get("incoming.request"), request.getMethod(), requestPath,
                 request.getQueryString(), request.getHeader("X-Request-ID"));
@@ -54,6 +54,9 @@ public class JwtFilter extends OncePerRequestFilter {
             } finally {
                 log.info(messageSource.get("outgoing.response"), response.getStatus());
             }
+        } else {
+            filterChain.doFilter(request, response);
+            log.info(messageSource.get("outgoing.response"), response.getStatus());
         }
     }
 

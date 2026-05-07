@@ -1,5 +1,6 @@
 package com.market.model;
 
+import com.market.enums.AccountStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +18,7 @@ public class Account {
     Long id;
     Double balance;
     User user;
+    AccountStatus status;
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
 }

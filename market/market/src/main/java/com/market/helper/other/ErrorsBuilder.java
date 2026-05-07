@@ -17,11 +17,10 @@ public class ErrorsBuilder {
     }
 
     public static void buildError(BindingResult bindingResult) {
-        Optional.of(bindingResult.getFieldErrors())
-                .filter(errors -> !errors.isEmpty())
-                .ifPresent(fieldErrors -> {
-                    throw new ValidationException(buildErrorMessage(fieldErrors));
-                });
+        Optional.ofNullable(bindingResult).flatMap(binding -> Optional.of(binding.getFieldErrors())
+                .filter(fieldErrors -> !fieldErrors.isEmpty())).ifPresent(fieldErrors -> {
+            throw new ValidationException(buildErrorMessage(fieldErrors));
+        });
     }
 
     public static String buildErrorMessage(BindingResult bindingResult) {

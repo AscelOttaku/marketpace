@@ -23,7 +23,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<Response> handleValidationException(ValidationException e) {
-        log.error(e.getMessage());
         return objectCreator.createFailResponse(e.getMessage());
     }
 
