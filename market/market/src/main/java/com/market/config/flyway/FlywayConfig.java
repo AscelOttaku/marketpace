@@ -11,12 +11,13 @@ import javax.sql.DataSource;
 public class FlywayConfig {
 
     @Autowired
-    public Flyway flyway(DataSource dataSource) {
-        return Flyway.configure()
+    public FlywayConfig(DataSource dataSource) {
+        Flyway.configure()
                 .dataSource(dataSource)
                 .locations("classpath:db/migration")
                 .validateOnMigrate(false)
                 .outOfOrder(true)
-                .load();
+                .load()
+                .migrate();
     }
 }
