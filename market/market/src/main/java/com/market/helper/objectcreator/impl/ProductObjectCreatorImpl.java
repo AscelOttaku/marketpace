@@ -2,11 +2,14 @@ package com.market.helper.objectcreator.impl;
 
 import com.market.dto.request.product.ProductSaveRequest;
 import com.market.dto.request.product.ProductUpdateRequest;
+import com.market.dto.response.common.PagingContent;
 import com.market.dto.response.common.Response;
 import com.market.dto.response.product.ProductResponse;
+import com.market.dto.response.user.UserResponse;
 import com.market.enums.ProductStatus;
 import com.market.helper.file.FileOperationHelper;
 import com.market.helper.objectcreator.ProductObjectCreator;
+import com.market.helper.other.PagingContentWrapper;
 import com.market.model.Product;
 import com.market.model.User;
 import org.springframework.http.HttpHeaders;
@@ -67,5 +70,44 @@ public class ProductObjectCreatorImpl implements ProductObjectCreator {
                 .header(HttpHeaders.CONTENT_DISPOSITION,
                         "inline; filename=\"" + product.getName() + ".jpg\"")
                 .body(product.getImg());
+    }
+
+    @Override
+    public ResponseEntity<Response> createProductsResponse(PagingContent<Product> products) {
+        return ResponseEntity.ok()
+                .body(Response.builder()
+                        .status(Response.Status.SUCCESS)
+                        .data(products.getContent().stream()
+                                .map(this::mapProductResponse)
+                                .toList())
+                        .build());
+    }
+
+    private ProductResponse mapProductResponse(Product product) {
+        return ProductResponse.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .quantity(product.getQuantity())
+                .status(product.getStatus())
+                .price(product.getPrice())
+                .user(UserResponse.builder()
+                        .id(product.getUser().getId())
+                        .email(product.getUser().getEmail())
+                        .name(product.getUser().getName())
+                        .surname(product.getUser().getSurname())
+                        .patronymic(product.getUser().getPatronymic())
+                        .msisdn(product.getUser().getMsisdn())
+                        .build())
+                .buyer(product.getBuyer() != null ?
+                        UserResponse.builder()
+                        .id(product.getBuyer().getId())
+                        .email(product.getBuyer().getEmail())
+                        .name(product.getBuyer().getName())
+                        .surname(product.getBuyer().getSurname())
+                        .patronymic(product.getBuyer().getPatronymic())
+                        .msisdn(product.getBuyer().getMsisdn())
+                        .build() : null)
+                .build();
     }
 }

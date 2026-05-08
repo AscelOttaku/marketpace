@@ -1,6 +1,6 @@
 package com.market.helper.common;
 
-import com.market.model.CustomUserDetails;
+import com.market.model.AuthUserDetails;
 import com.market.model.User;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,7 +23,7 @@ public class SecurityHelper {
     }
 
     public static User getAuthenticatedUser() throws AuthenticationException {
-        return ((CustomUserDetails) getAuthentication()
+        return ((AuthUserDetails) getAuthentication()
                 .getPrincipal())
                 .user();
     }

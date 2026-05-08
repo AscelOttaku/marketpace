@@ -2,6 +2,7 @@ package com.market.helper.objectcreator;
 
 import com.market.dto.request.product.ProductSaveRequest;
 import com.market.dto.request.product.ProductUpdateRequest;
+import com.market.dto.response.common.PagingContent;
 import com.market.dto.response.common.Response;
 import com.market.model.Product;
 import com.market.model.User;
@@ -19,4 +20,6 @@ public interface ProductObjectCreator extends ObjectCreator{
     ResponseEntity<Response> createSuccessResponse(Product product);
 
     ResponseEntity<byte[]> createImgResponse(Product product);
+
+    ResponseEntity<Response> createProductsResponse(PagingContent<Product> products);
 }

@@ -1,10 +1,10 @@
 package com.market.service.domain;
 
-import com.market.model.CustomUserDetails;
+import com.market.model.AuthUserDetails;
 import com.market.model.User;
 
 public interface UserService {
-    CustomUserDetails loadByEmail(String email);
+    AuthUserDetails loadByEmail(String email);
 
     User findByEmail(String email);
 

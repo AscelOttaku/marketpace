@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: market
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/market
+    username: postgres
+    password: Kanybek20065732
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 8090
+
+security:
+  url: http://localhost:8080

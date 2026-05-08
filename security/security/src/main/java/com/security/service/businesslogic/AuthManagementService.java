@@ -1,6 +1,7 @@
 package com.security.service.businesslogic;
 
 import com.security.dto.request.auth.UserAuthenticateRequest;
+import com.security.dto.response.auth.UserDetailsResponse;
 import com.security.dto.response.common.Response;
 import org.springframework.http.ResponseEntity;
 
@@ -9,5 +10,5 @@ public interface AuthManagementService {
 
     ResponseEntity<Response> refreshToken();
 
-    ResponseEntity<Response> validate();
+    ResponseEntity<UserDetailsResponse> validate();
 }

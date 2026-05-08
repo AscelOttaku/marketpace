@@ -56,6 +56,6 @@ public class ProductManagementServiceImpl implements ProductManagementService {
     @Override
     public ResponseEntity<Response> findAll(int page, int size, String search) {
         var products = productService.findAll(page, size, search);
-        return objectCreator.createSuccessResponse(products);
+        return objectCreator.createProductsResponse(products);
     }
 }

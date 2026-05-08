@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public record CustomUserDetails(User user) implements UserDetails {
+public record AuthUserDetails(User user) implements UserDetails {
 
     @NonNull
     @Override

@@ -1,6 +1,7 @@
 package com.security.api;
 
 import com.security.dto.request.auth.UserAuthenticateRequest;
+import com.security.dto.response.auth.UserDetailsResponse;
 import com.security.dto.response.common.Response;
 import com.security.service.businesslogic.AuthManagementService;
 import jakarta.validation.Valid;
@@ -28,8 +29,8 @@ public class AuthenticationApi {
         return authManagementService.refreshToken();
     }
 
-    @GetMapping("/validate")
-    public ResponseEntity<Response> validate() {
+    @PostMapping("/validate")
+    public ResponseEntity<UserDetailsResponse> validate() {
         return authManagementService.validate();
     }
 }

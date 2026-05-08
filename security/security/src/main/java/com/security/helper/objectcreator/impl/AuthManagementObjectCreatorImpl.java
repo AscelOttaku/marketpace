@@ -53,13 +53,11 @@ public class AuthManagementObjectCreatorImpl implements AuthManagementObjectCrea
     }
 
     @Override
-    public ResponseEntity<Response> createUserDetailsResponse(User user) {
-        return ResponseEntity.ok().body(
-                Response.builder()
-                        .data(UserDetailsResponse.builder()
-                                .email(user.getEmail())
-                                .role(user.getRole())
-                                .build())
-                        .build());
+    public ResponseEntity<UserDetailsResponse> createUserDetailsResponse(User user) {
+        return ResponseEntity.ok().body(UserDetailsResponse.builder()
+                .email(user.getEmail())
+                .role(user.getRole())
+                .password(user.getPassword())
+                .build());
     }
 }

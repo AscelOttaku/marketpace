@@ -1,7 +1,10 @@
-package com.security.dto.response.auth;
+package com.market.dto.response.auth;
 
-import com.security.enums.UserRole;
-import lombok.*;
+import com.market.enums.UserRole;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 @Getter

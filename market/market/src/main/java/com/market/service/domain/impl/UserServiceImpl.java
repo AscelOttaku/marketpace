@@ -3,7 +3,7 @@ package com.market.service.domain.impl;
 import com.market.entity.UserEntity;
 import com.market.exceptions.EntityNotFoundException;
 import com.market.helper.common.MessageSourceHelper;
-import com.market.model.CustomUserDetails;
+import com.market.model.AuthUserDetails;
 import com.market.model.User;
 import com.market.repository.UserRepository;
 import com.market.service.domain.UserService;
@@ -21,9 +21,9 @@ public class UserServiceImpl implements UserService {
     ModelMapper mapper;
 
     @Override
-    public CustomUserDetails loadByEmail(String email) {
+    public AuthUserDetails loadByEmail(String email) {
         var user = findByEmail(email);
-        return new CustomUserDetails(user);
+        return new AuthUserDetails(user);
     }
 
     @Override

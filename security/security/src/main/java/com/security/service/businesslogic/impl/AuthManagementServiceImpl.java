@@ -1,6 +1,7 @@
 package com.security.service.businesslogic.impl;
 
 import com.security.dto.request.auth.UserAuthenticateRequest;
+import com.security.dto.response.auth.UserDetailsResponse;
 import com.security.dto.response.common.Response;
 import com.security.helper.common.SecurityHelper;
 import com.security.helper.objectcreator.AuthManagementObjectCreator;
@@ -41,7 +42,7 @@ public class AuthManagementServiceImpl implements AuthManagementService {
     }
 
     @Override
-    public ResponseEntity<Response> validate() {
+    public ResponseEntity<UserDetailsResponse> validate() {
         var user = SecurityHelper.getAuthenticatedUser();
         return authManagementObjectCreator.createUserDetailsResponse(user);
     }
