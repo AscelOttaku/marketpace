@@ -37,8 +37,8 @@ public class ProductManagementServiceImpl implements ProductManagementService {
         var existing = productService.findById(request.getId());
         byte[] img = FileOperationHelper.readFile(request.getImg());
         var updateModel = objectCreator.createUpdate(existing, request, img);
-        var save = productService.save(updateModel);
-        return objectCreator.createSuccessResponse(save);
+        var product = productService.update(updateModel);
+        return objectCreator.createSuccessResponse(product);
     }
 
     @Override

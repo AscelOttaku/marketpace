@@ -3,7 +3,7 @@ package com.market.service.domain.impl;
 import com.market.dto.response.common.PagingContent;
 import com.market.entity.ProductEntity;
 import com.market.exceptions.EntityNotFoundException;
-import com.market.helper.common.ResourceHelper;
+import com.market.helper.common.MessageSourceHelper;
 import com.market.helper.other.PagingContentWrapper;
 import com.market.model.Product;
 import com.market.repository.ProductRepository;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 public class ProductServiceImpl implements ProductService {
     ProductRepository repository;
-    ResourceHelper resourceHelper;
+    MessageSourceHelper messageSource;
     ModelMapper mapper;
 
     @Override
@@ -30,11 +30,21 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Product update(Product product) {
+        var entity = repository.findById(product.getId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        messageSource.get("not.found.by.product.id.message", product.getId())));
+        mapper.map(product, entity);
+        entity = repository.save(entity);
+        return mapper.map(entity, Product.class);
+    }
+
+    @Override
     public Product findById(Long id) {
         return repository.findById(id)
                 .map(productEntity -> mapper.map(productEntity, Product.class))
                 .orElseThrow(() -> new EntityNotFoundException(
-                        resourceHelper.get("not.found.by.product.id.message", id)));
+                        messageSource.get("not.found.by.product.id.message", id)));
     }
 
     @Override

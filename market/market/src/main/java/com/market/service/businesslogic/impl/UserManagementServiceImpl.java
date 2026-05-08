@@ -43,7 +43,7 @@ public class UserManagementServiceImpl implements UserManagementService {
         var existingUser = userService.findById(request.getId());
         var userUpdateModel = userManagementObjectCreator.createUserUpdateModel(existingUser, request);
         validator.validateUserUniqueness(userUpdateModel, bindingResult);
-        userService.save(userUpdateModel);
+        userService.update(userUpdateModel);
         return userManagementObjectCreator.createSuccessResponse();
     }
 }

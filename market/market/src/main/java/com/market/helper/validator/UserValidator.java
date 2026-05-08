@@ -1,7 +1,7 @@
 package com.market.helper.validator;
 
 import com.market.exceptions.EntityNotFoundException;
-import com.market.helper.common.ResourceHelper;
+import com.market.helper.common.MessageSourceHelper;
 import com.market.model.User;
 import com.market.service.domain.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import org.springframework.validation.Validator;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 public class UserValidator implements Validator {
     UserService userService;
-    ResourceHelper resourceHelper;
+    MessageSourceHelper messageSource;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -29,14 +29,14 @@ public class UserValidator implements Validator {
             var byEmail = userService.findByEmail(request.getEmail());
             if (!byEmail.getId().equals(request.getId()))
                 errors.rejectValue("email", "",
-                        resourceHelper.get("already.exists.by.email", request.getEmail()));
+                        messageSource.get("already.exists.by.email", request.getEmail()));
         } catch (EntityNotFoundException ignored) {}
 
         try {
             var byMsisdn = userService.findByMsisdn(request.getMsisdn());
             if (!byMsisdn.getId().equals(request.getId()))
                 errors.rejectValue("msisdn", "",
-                        resourceHelper.get("already.exists.by.msisdn", request.getMsisdn()));
+                        messageSource.get("already.exists.by.msisdn", request.getMsisdn()));
         } catch (EntityNotFoundException ignored) {}
     }
 }

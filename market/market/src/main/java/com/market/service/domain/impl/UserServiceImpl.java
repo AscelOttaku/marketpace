@@ -2,7 +2,7 @@ package com.market.service.domain.impl;
 
 import com.market.entity.UserEntity;
 import com.market.exceptions.EntityNotFoundException;
-import com.market.helper.common.ResourceHelper;
+import com.market.helper.common.MessageSourceHelper;
 import com.market.model.CustomUserDetails;
 import com.market.model.User;
 import com.market.repository.UserRepository;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 public class UserServiceImpl implements UserService {
     UserRepository repository;
-    ResourceHelper resourceHelper;
+    MessageSourceHelper messageSource;
     ModelMapper mapper;
 
     @Override
@@ -31,8 +31,8 @@ public class UserServiceImpl implements UserService {
         return repository.findByEmail(email)
                 .map(userEntity -> mapper.map(userEntity, User.class))
                 .orElseThrow(() -> new EntityNotFoundException(
-                        resourceHelper.get("user.friendly.name", email),
-                        resourceHelper.get("not.found.by.user.email.message", email)));
+                        messageSource.get("user.friendly.name", email),
+                        messageSource.get("not.found.by.user.email.message", email)));
     }
 
     @Override
@@ -40,8 +40,8 @@ public class UserServiceImpl implements UserService {
         return repository.findByMsisdn(msisdn)
                 .map(userEntity -> mapper.map(userEntity, User.class))
                 .orElseThrow(() -> new EntityNotFoundException(
-                        resourceHelper.get("user.friendly.name", msisdn),
-                        resourceHelper.get("not.found.by.user.msisdn.message", msisdn)));
+                        messageSource.get("user.friendly.name", msisdn),
+                        messageSource.get("not.found.by.user.msisdn.message", msisdn)));
     }
 
     @Override
@@ -49,13 +49,24 @@ public class UserServiceImpl implements UserService {
         return repository.findById(id)
                 .map(userEntity -> mapper.map(userEntity, User.class))
                 .orElseThrow(() -> new EntityNotFoundException(
-                        resourceHelper.get("user.friendly.name", id),
-                        resourceHelper.get("not.found.by.user.id.message", id)));
+                        messageSource.get("user.friendly.name"),
+                        messageSource.get("not.found.by.user.id.message", id)));
     }
 
     @Override
     public User save(User user) {
         UserEntity save = repository.save(mapper.map(user, UserEntity.class));
         return mapper.map(save, User.class);
+    }
+
+    @Override
+    public User update(User user) {
+        var entity = repository.findById(user.getId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        messageSource.get("user.friendly.name", user.getEmail()),
+                        messageSource.get("not.found.by.user.id.message", user.getId())));
+        mapper.map(user, entity);
+        entity = repository.save(entity);
+        return mapper.map(entity, User.class);
     }
 }
