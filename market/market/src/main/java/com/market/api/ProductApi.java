@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.naming.AuthenticationException;
 
 @RestController
-@RequestMapping("/api/v1/products")
+@RequestMapping("/api/products")
 @RequiredArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 public class ProductApi {
@@ -44,7 +44,7 @@ public class ProductApi {
     @GetMapping("search")
     public ResponseEntity<Response> findAll(@RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "15") int size,
-                                            @RequestParam String search) {
+                                            @RequestParam(required = false) String search) {
         return productManagementService.findAll(page, size, search);
     }
 }

@@ -49,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public PagingContent<Product> findAll(int page, int size, String search) {
-        var pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        var pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "updatedAt"));
         var products = repository.findAll(search, pageable)
                 .map(productEntity -> mapper.map(productEntity, Product.class));
         return PagingContentWrapper.wrapPagingContent(products);

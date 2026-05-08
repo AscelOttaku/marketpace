@@ -39,4 +39,10 @@ public class AuthManagementServiceImpl implements AuthManagementService {
         String accessToken = jwtHelper.generateAccessToken(user);
         return authManagementObjectCreator.createRefreshAccessTokenResponse(accessToken);
     }
+
+    @Override
+    public ResponseEntity<Response> validate() {
+        var user = SecurityHelper.getAuthenticatedUser();
+        return authManagementObjectCreator.createUserDetailsResponse(user);
+    }
 }

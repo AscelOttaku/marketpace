@@ -26,12 +26,6 @@ public class GlobalExceptionHandler {
         return objectCreator.createFailResponse(e.getMessage());
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Response> handleException(Exception e) {
-        log.error(e.getMessage());
-        return objectCreator.createErrorResponse(e.getMessage());
-    }
-
     @ExceptionHandler(FileOperationException.class)
     public ResponseEntity<Response> handleFileOperationException(FileOperationException e) {
         log.error(e.getMessage());

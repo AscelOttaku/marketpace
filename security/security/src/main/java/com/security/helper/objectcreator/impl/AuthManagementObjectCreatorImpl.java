@@ -3,8 +3,10 @@ package com.security.helper.objectcreator.impl;
 import com.google.gson.Gson;
 import com.security.dto.request.auth.RefreshAccessTokenResponse;
 import com.security.dto.response.auth.AuthResponse;
+import com.security.dto.response.auth.UserDetailsResponse;
 import com.security.dto.response.common.Response;
 import com.security.helper.objectcreator.AuthManagementObjectCreator;
+import com.security.model.User;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -48,5 +50,16 @@ public class AuthManagementObjectCreatorImpl implements AuthManagementObjectCrea
         return gson.toJson(Response.builder()
                 .message(message)
                 .build());
+    }
+
+    @Override
+    public ResponseEntity<Response> createUserDetailsResponse(User user) {
+        return ResponseEntity.ok().body(
+                Response.builder()
+                        .data(UserDetailsResponse.builder()
+                                .email(user.getEmail())
+                                .role(user.getRole())
+                                .build())
+                        .build());
     }
 }
