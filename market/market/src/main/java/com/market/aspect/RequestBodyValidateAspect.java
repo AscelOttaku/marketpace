@@ -12,7 +12,7 @@ import org.springframework.validation.BindingResult;
 @Component
 public class RequestBodyValidateAspect {
 
-    @Pointcut("within(com.market.api.*) && execution(* *(.., @com.market.annotation.RequestBodyValidate (*), ..))")
+    @Pointcut("execution(* com.market.api.*.*(.., @com.market.annotation.RequestBodyValidate (*), ..))")
     public void requestBodyValidatePointcut() {
     }
 

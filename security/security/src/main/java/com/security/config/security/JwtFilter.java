@@ -3,15 +3,13 @@ package com.security.config.security;
 import com.security.helper.common.MessageSourceHelper;
 import com.security.helper.security.AuthHelper;
 import com.security.helper.security.JwtHelper;
-import com.security.model.CustomUserDetails;
-import com.security.service.domain.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -25,7 +23,7 @@ public class JwtFilter extends OncePerRequestFilter {
     public static final String HEADER_NAME = "Authorization";
     private final JwtHelper jwtHelper;
     private final AuthHelper authHelper;
-    private final UserService userService;
+    private final UserDetailsService userDetailsService;
     private final MessageSourceHelper messageSource;
 
     @Override
@@ -46,7 +44,7 @@ public class JwtFilter extends OncePerRequestFilter {
             var isRefreshToken = authHelper.isRefreshTokenRequest(requestPath);
             try {
                 var email = jwtHelper.extractLogin(token, isRefreshToken);
-                var authUserDetails = userService.loadByLogin(email);
+                var authUserDetails = userDetailsService.loadUserByUsername(email);
                 authHelper.authenticate(authUserDetails);
                 filterChain.doFilter(request, response);
             } catch (Exception e) {

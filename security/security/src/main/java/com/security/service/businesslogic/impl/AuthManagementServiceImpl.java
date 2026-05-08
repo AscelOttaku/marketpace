@@ -5,7 +5,7 @@ import com.security.dto.response.common.Response;
 import com.security.helper.common.SecurityHelper;
 import com.security.helper.objectcreator.AuthManagementObjectCreator;
 import com.security.helper.security.JwtHelper;
-import com.security.model.CustomUserDetails;
+import com.security.model.AuthUserDetails;
 import com.security.service.businesslogic.AuthManagementService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class AuthManagementServiceImpl implements AuthManagementService {
     @Override
     public ResponseEntity<Response> login(UserAuthenticateRequest request) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
-        var authDetails = (CustomUserDetails) authenticationManager.authenticate(usernamePassword).getPrincipal();
+        var authDetails = (AuthUserDetails) authenticationManager.authenticate(usernamePassword).getPrincipal();
         String accessToken = jwtHelper.generateAccessToken(authDetails.user());
         String refreshToken = jwtHelper.generateRefreshToken(authDetails.user());
         return authManagementObjectCreator.createAuthenticateSuccessResponse(accessToken, refreshToken);

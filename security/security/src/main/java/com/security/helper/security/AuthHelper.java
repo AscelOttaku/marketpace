@@ -1,6 +1,5 @@
 package com.security.helper.security;
 
-import com.security.model.CustomUserDetails;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

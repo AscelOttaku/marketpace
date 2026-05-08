@@ -18,4 +18,4 @@ server:
 token:
   signing:
     secret:
-      key: ${SECRET_KEY:b05ae766-de0f-4dc1-986e-7b1585fccced}
+      key: ${SECRET_KEY:YXJtd29ybGRwb3JjaGRvb3J0ZWFjaGVyY29hY2hlcXVpcG1lbnRmZWFyc2hha2luZ3dlYWtkdQ==}

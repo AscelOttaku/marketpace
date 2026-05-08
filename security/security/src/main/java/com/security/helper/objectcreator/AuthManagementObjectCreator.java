@@ -8,4 +8,6 @@ public interface AuthManagementObjectCreator extends ObjectCreator {
                                                                String refreshToken);
 
     ResponseEntity<Response> createRefreshAccessTokenResponse(String accessToken);
+
+    String createAccessDeniedResponse(String message);
 }
