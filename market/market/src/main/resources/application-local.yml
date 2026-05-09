@@ -17,3 +17,7 @@ server:
 
 security:
   url: http://localhost:8080
+
+max:
+  body:
+    length: 600

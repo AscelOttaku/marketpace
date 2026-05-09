@@ -10,6 +10,7 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -43,8 +44,7 @@ public class RequestFilter implements GlobalFilter, Ordered {
         }
         var response = modifyExchange.getResponse();
         return chain.filter(modifyExchange)
-                .doOnTerminate(() -> log.info(messageSourceHelper.get("outgoing.response"),
-                        response.getStatusCode()));
+                .doOnTerminate(() -> this.logResponse(response));
     }
 
     @Override
@@ -72,6 +72,11 @@ public class RequestFilter implements GlobalFilter, Ordered {
         var requestId = request.getHeaders().getFirst("X-Request-ID");
         log.info(messageSourceHelper.get("incoming.request"), requestPath, request.getMethod(),
                 request.getQueryParams(), requestId);
+    }
+
+    private void logResponse(ServerHttpResponse response) {
+        var requestId = response.getHeaders().getFirst("X-Request-ID");
+        log.info(messageSourceHelper.get("outgoing.response"), response.getStatusCode(), requestId);
     }
 
     private boolean hasNonExistingAuthHeader(String authHeader) {
