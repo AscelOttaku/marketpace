@@ -38,19 +38,6 @@ CREATE TABLE account
         CHECK (status IN ('ACTIVE', 'BLOCKED'))
 );
 
-CREATE TABLE buyer
-(
-    id         BIGSERIAL PRIMARY KEY,
-
-    user_id    BIGINT    NOT NULL UNIQUE,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT fk_buyer_user
-        FOREIGN KEY (user_id)
-            REFERENCES users (id)
-            ON DELETE CASCADE
-);
-
 CREATE TABLE product
 (
     id          BIGSERIAL PRIMARY KEY,
@@ -64,18 +51,12 @@ CREATE TABLE product
     img         BYTEA,
     status      VARCHAR(30)    NOT NULL DEFAULT 'ACTIVE',
 
-    buyer_id    BIGINT,
     quantity    INT            NOT NULL DEFAULT 1,
 
     CONSTRAINT fk_product_user
         FOREIGN KEY (user_id)
             REFERENCES users (id)
             ON DELETE CASCADE,
-
-    CONSTRAINT fk_product_buyer
-        FOREIGN KEY (buyer_id)
-            REFERENCES buyer (id)
-            ON DELETE SET NULL,
 
     CONSTRAINT chk_product_price_not_negative
         CHECK (price >= 0),

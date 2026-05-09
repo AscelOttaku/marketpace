@@ -106,15 +106,6 @@ public class ProductObjectCreatorImpl implements ProductObjectCreator {
                         .patronymic(product.getUser().getPatronymic())
                         .msisdn(product.getUser().getMsisdn())
                         .build())
-                .buyer(product.getBuyer() != null ?
-                        UserResponse.builder()
-                        .id(product.getBuyer().getId())
-                        .email(product.getBuyer().getEmail())
-                        .name(product.getBuyer().getName())
-                        .surname(product.getBuyer().getSurname())
-                        .patronymic(product.getBuyer().getPatronymic())
-                        .msisdn(product.getBuyer().getMsisdn())
-                        .build() : null)
                 .build();
     }
 }

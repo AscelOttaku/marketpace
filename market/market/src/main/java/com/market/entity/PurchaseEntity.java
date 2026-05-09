@@ -1,6 +1,6 @@
 package com.market.entity;
 
-import com.market.enums.ProductStatus;
+import com.market.enums.PurchaseStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,41 +9,34 @@ import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "product", indexes = {
-        @Index(name = "idx_product_name", columnList = "name")
-})
+@Table(name = "purchase")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProductEntity {
+public class PurchaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(nullable = false)
-    String name;
-
-    @Column(nullable = false)
-    String description;
-
-    @Column(nullable = false)
-    Double price;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
+    ProductEntity product;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     UserEntity user;
 
-    byte[] img;
+    @Column(nullable = false)
+    BigDecimal price;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    ProductStatus status;
-
-    Integer quantity;
+    PurchaseStatus status;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
