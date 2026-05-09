@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
@@ -20,6 +21,8 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 @Slf4j
 @Component
@@ -27,6 +30,13 @@ import java.nio.charset.StandardCharsets;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RequestLoggingFilter extends OncePerRequestFilter {
+
+    private static final Map<Pattern, String> PROTECTED_PATHS;
+
+    static {
+        PROTECTED_PATHS = Map.of(
+                Pattern.compile("^/api/users/register$"), HttpMethod.POST.name());
+    }
 
     MessageSourceHelper messageSourceHelper;
 
@@ -50,6 +60,7 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
 
     private void logRequest(ContentCachingRequestWrapper request,
                             ContentCachingResponseWrapper response) {
+        if (!this.isPathProtected(request)) return;
         var requestId = request.getHeader("X-Request-ID");
         var requestPath = request.getRequestURI();
         log.info(messageSourceHelper.get("incoming.request"), requestPath, request.getMethod(),
@@ -73,6 +84,12 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
 
     private boolean isJson(String contentType) {
         return contentType != null && contentType.startsWith("application/json");
+    }
+
+    private boolean isPathProtected(HttpServletRequest request) {
+        return PROTECTED_PATHS.entrySet().stream()
+                .anyMatch(entry -> entry.getKey().matcher(request.getRequestURI()).matches()
+                        && entry.getValue().equals(request.getMethod()));
     }
 }
 

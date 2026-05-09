@@ -21,7 +21,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
                WHEN LOWER(p.name)        LIKE LOWER(CONCAT('%', :search, '%')) THEN 1
                WHEN LOWER(p.description) LIKE LOWER(CONCAT('%', :search, '%')) THEN 2
                ELSE 3
-            END
+            END ASC
             """)
     Page<ProductEntity> findAll(@Param("search") String search, Pageable pageable);
 }

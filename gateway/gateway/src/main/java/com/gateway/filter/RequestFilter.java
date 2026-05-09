@@ -31,7 +31,10 @@ public class RequestFilter implements GlobalFilter, Ordered {
         var request = modifyExchange.getRequest();
         this.logRequest(request);
         var requestPath = request.getPath().value();
-        if (this.isPathExampted(requestPath)) return chain.filter(modifyExchange);
+        if (this.isPathExampted(requestPath))
+            return chain.filter(modifyExchange)
+                    .doOnTerminate(() -> this.logResponse(modifyExchange.getResponse()));
+
         var authHeader = request.getHeaders().getFirst("Authorization");
         if (this.hasNonExistingAuthHeader(authHeader)) {
             log.error(messageSourceHelper.get("auth.header.missing"));
@@ -53,7 +56,7 @@ public class RequestFilter implements GlobalFilter, Ordered {
     }
 
     private boolean isPathExampted(String requestPath) {
-        return requestPath.equals("/api/v1/users/register") ||
+        return requestPath.equals("/api/users/register") ||
                 requestPath.equals("/auth/login");
     }
 
@@ -75,8 +78,7 @@ public class RequestFilter implements GlobalFilter, Ordered {
     }
 
     private void logResponse(ServerHttpResponse response) {
-        var requestId = response.getHeaders().getFirst("X-Request-ID");
-        log.info(messageSourceHelper.get("outgoing.response"), response.getStatusCode(), requestId);
+        log.info(messageSourceHelper.get("outgoing.response"), response.getStatusCode());
     }
 
     private boolean hasNonExistingAuthHeader(String authHeader) {

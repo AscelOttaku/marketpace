@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class JwtFilter extends OncePerRequestFilter {
     private static final List<Map<Pattern, String>> PUBLIC_PATHS = List.of(
-            Map.of(Pattern.compile("^/api/v1/users/register$"), HttpMethod.POST.name()));
+            Map.of(Pattern.compile("^/api/users/register$"), HttpMethod.POST.name()));
 
     AuthenticationService authenticationService;
     MessageSourceHelper messageSourceHelper;

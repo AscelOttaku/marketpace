@@ -77,9 +77,16 @@ public class ProductObjectCreatorImpl implements ProductObjectCreator {
         return ResponseEntity.ok()
                 .body(Response.builder()
                         .status(Response.Status.SUCCESS)
-                        .data(products.getContent().stream()
-                                .map(this::mapProductResponse)
-                                .toList())
+                        .data(PagingContent.<ProductResponse>builder()
+                                .content(products.getContent().stream().map(this::mapProductResponse)
+                                        .toList())
+                                .page(products.getPage())
+                                .size(products.getSize())
+                                .totalPages(products.getTotalPages())
+                                .totalElements(products.getTotalElements())
+                                .hasNextPage(products.getHasNextPage())
+                                .hasPreviousPage(products.getHasPreviousPage())
+                                .build())
                         .build());
     }
 
