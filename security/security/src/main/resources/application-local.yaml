@@ -1,6 +1,6 @@
 spring:
   application:
-    name: security
+    name: security-service
 
   datasource:
     url: jdbc:postgresql://localhost:5432/market
@@ -29,3 +29,12 @@ refresh:
   token:
     expiration:
       date: 168
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    lease-expiration-duration-in-seconds: 90
+    lease-renewal-interval-in-seconds: 40
+    prefer-ip-address: true

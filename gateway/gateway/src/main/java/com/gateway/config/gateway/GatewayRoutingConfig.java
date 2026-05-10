@@ -14,10 +14,10 @@ public class GatewayRoutingConfig {
                 .route("product-route", p -> p
                         .path("/*/products/**",
                                 "/*/users/**")
-                        .uri("http://localhost:8090"))
+                        .uri("lb://market-service"))
                 .route("auth-route", p -> p
                         .path("/auth/**")
-                        .uri("http://localhost:8080"))
+                        .uri("lb://security-service"))
                 .build();
     }
 }

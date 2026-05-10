@@ -1,6 +1,15 @@
 spring:
   application:
-    name: gateway
+    name: gateway-service
 
 server:
   port: 8044
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    lease-expiration-duration-in-seconds: 90
+    lease-renewal-interval-in-seconds: 40
+    prefer-ip-address: true

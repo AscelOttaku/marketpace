@@ -52,14 +52,7 @@ public class ProductObjectCreatorImpl implements ProductObjectCreator {
         return ResponseEntity.ok()
                 .body(Response.builder()
                         .status(Response.Status.SUCCESS)
-                        .data(ProductResponse.builder()
-                                .id(product.getId())
-                                .name(product.getName())
-                                .description(product.getDescription())
-                                .quantity(product.getQuantity())
-                                .status(product.getStatus())
-                                .price(product.getPrice())
-                                .build())
+                        .data(mapProductResponse(product))
                         .build());
     }
 

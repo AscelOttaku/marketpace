@@ -60,7 +60,7 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
 
     private void logRequest(ContentCachingRequestWrapper request,
                             ContentCachingResponseWrapper response) {
-        if (!this.isPathProtected(request)) return;
+        if (this.isPathProtected(request)) return;
         var requestId = request.getHeader("X-Request-ID");
         var requestPath = request.getRequestURI();
         log.info(messageSourceHelper.get("incoming.request"), requestPath, request.getMethod(),
