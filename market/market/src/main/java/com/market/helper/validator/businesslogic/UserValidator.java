@@ -1,4 +1,4 @@
-package com.market.helper.validator;
+package com.market.helper.validator.businesslogic;
 
 import com.market.exceptions.EntityNotFoundException;
 import com.market.helper.common.MessageSourceHelper;

@@ -4,7 +4,9 @@ import com.market.dto.response.common.PagingContent;
 import com.market.entity.ProductEntity;
 import com.market.exceptions.EntityNotFoundException;
 import com.market.helper.common.MessageSourceHelper;
+import com.market.helper.objectmodifier.ProductObjectModifier;
 import com.market.helper.other.PagingContentWrapper;
+import com.market.helper.validator.domain.DomainValidator;
 import com.market.model.Product;
 import com.market.repository.ProductRepository;
 import com.market.service.domain.ProductService;
@@ -19,24 +21,17 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 public class ProductServiceImpl implements ProductService {
-    ProductRepository repository;
+
     MessageSourceHelper messageSource;
+    ProductObjectModifier modifier;
+    ProductRepository repository;
+    DomainValidator validator;
     ModelMapper mapper;
 
     @Override
     public Product save(Product product) {
         var saved = repository.save(mapper.map(product, ProductEntity.class));
         return mapper.map(saved, Product.class);
-    }
-
-    @Override
-    public Product update(Product product) {
-        var entity = repository.findById(product.getId())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        messageSource.get("not.found.by.product.id.message", product.getId())));
-        mapper.map(product, entity);
-        entity = repository.save(entity);
-        return mapper.map(entity, Product.class);
     }
 
     @Override
@@ -53,5 +48,14 @@ public class ProductServiceImpl implements ProductService {
         var products = repository.findAll(search, pageable)
                 .map(productEntity -> mapper.map(productEntity, Product.class));
         return PagingContentWrapper.wrapPagingContent(products);
+    }
+
+    @Override
+    public Product takeProduct(Product product,
+                               Integer quantity) {
+        var modify = modifier.applyMinusQuantity(product, quantity);
+        validator.validateProduct(modify);
+        var entity = repository.save(mapper.map(modify, ProductEntity.class));
+        return mapper.map(entity, Product.class);
     }
 }

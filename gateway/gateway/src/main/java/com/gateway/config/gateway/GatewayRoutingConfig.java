@@ -13,7 +13,8 @@ public class GatewayRoutingConfig {
         return builder.routes()
                 .route("product-route", p -> p
                         .path("/*/products/**",
-                                "/*/users/**")
+                                "/*/users/**",
+                                "/*/purchases/**")
                         .uri("lb://market-service"))
                 .route("auth-route", p -> p
                         .path("/auth/**")

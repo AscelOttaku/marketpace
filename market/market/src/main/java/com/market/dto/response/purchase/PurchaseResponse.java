@@ -22,6 +22,7 @@ public class PurchaseResponse {
     Long id;
     Double price;
     UserResponse user;
+    Integer quantity;
     PurchaseStatus status;
     ProductResponse product;
     LocalDateTime createdAt;

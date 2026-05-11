@@ -22,4 +22,8 @@ public class MessageSourceHelper {
         var message = messageSource.getMessage(key, null, LocaleContextHolder.getLocale());
         return String.format(message, args);
     }
+
+    public String get(String key) {
+        return messageSource.getMessage(key, null, LocaleContextHolder.getLocale());
+    }
 }

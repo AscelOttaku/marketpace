@@ -1,4 +1,4 @@
-package com.market.helper.validator;
+package com.market.helper.validator.businesslogic;
 
 import com.market.helper.other.ErrorsBuilder;
 import com.market.model.User;
@@ -10,7 +10,8 @@ import org.springframework.validation.BindingResult;
 @Component
 @RequiredArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
-public class Validator {
+public class BusinessLogicValidator {
+
     UserValidator userValidator;
 
     public void validateUserUniqueness(User user, BindingResult bindingResult) {

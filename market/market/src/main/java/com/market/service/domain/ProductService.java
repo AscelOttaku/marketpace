@@ -6,9 +6,10 @@ import com.market.model.Product;
 public interface ProductService {
     Product save(Product product);
 
-    Product update(Product product);
-
     Product findById(Long id);
 
     PagingContent<Product> findAll(int page, int size, String search);
+
+    Product takeProduct(Product product,
+                        Integer quantity);
 }

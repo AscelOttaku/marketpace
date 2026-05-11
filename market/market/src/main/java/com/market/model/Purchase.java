@@ -19,6 +19,7 @@ public class Purchase {
     Product product;
     Double price;
     User user;
+    Integer quantity;
     PurchaseStatus status;
     LocalDateTime createdAt;
     LocalDateTime updatedAt;

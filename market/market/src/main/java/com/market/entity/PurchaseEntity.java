@@ -39,6 +39,9 @@ public class PurchaseEntity {
     @Column(nullable = false)
     PurchaseStatus status;
 
+    @Column(nullable = false)
+    Integer quantity;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     LocalDateTime createdAt;

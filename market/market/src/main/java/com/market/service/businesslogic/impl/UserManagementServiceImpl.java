@@ -4,7 +4,7 @@ import com.market.dto.request.auth.UserRegisterRequest;
 import com.market.dto.request.auth.UserUpdateRequest;
 import com.market.dto.response.common.Response;
 import com.market.helper.objectcreator.UserManagementObjectCreator;
-import com.market.helper.validator.Validator;
+import com.market.helper.validator.businesslogic.BusinessLogicValidator;
 import com.market.model.User;
 import com.market.service.businesslogic.UserManagementService;
 import com.market.service.domain.AccountService;
@@ -21,8 +21,8 @@ import org.springframework.validation.BindingResult;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 public class UserManagementServiceImpl implements UserManagementService {
     UserService userService;
-    Validator validator;
     AccountService accountService;
+    BusinessLogicValidator businessLogicValidator;
     UserManagementObjectCreator userManagementObjectCreator;
 
     @Override
@@ -30,7 +30,7 @@ public class UserManagementServiceImpl implements UserManagementService {
     public ResponseEntity<Response> register(UserRegisterRequest request,
                                              BindingResult bindingResult) {
         var userRegisterModel = userManagementObjectCreator.createUserSaveModel(request);
-        validator.validateUserUniqueness(userRegisterModel, bindingResult);
+        businessLogicValidator.validateUserUniqueness(userRegisterModel, bindingResult);
         User save = userService.save(userRegisterModel);
         var saveAccountModel = userManagementObjectCreator.createAccountSaveModel(save);
         accountService.save(saveAccountModel);
@@ -42,7 +42,7 @@ public class UserManagementServiceImpl implements UserManagementService {
                                            BindingResult bindingResult) {
         var existingUser = userService.findById(request.getId());
         var userUpdateModel = userManagementObjectCreator.createUserUpdateModel(existingUser, request);
-        validator.validateUserUniqueness(userUpdateModel, bindingResult);
+        businessLogicValidator.validateUserUniqueness(userUpdateModel, bindingResult);
         userService.update(userUpdateModel);
         return userManagementObjectCreator.createSuccessResponse();
     }
