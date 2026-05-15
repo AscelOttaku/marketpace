@@ -2,7 +2,7 @@ package com.security.config.security;
 
 import com.security.helper.common.MessageSourceHelper;
 import com.security.helper.common.SecurityHelper;
-import com.security.helper.objectcreator.AuthManagementObjectCreator;
+import com.security.helper.objectcreator.ErrorObjectCreator;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class SecurityConfig {
 
     JwtFilter jwtFilter;
     MessageSourceHelper messageSource;
-    AuthManagementObjectCreator authManagementObjectCreator;
+    ErrorObjectCreator errorObjectCreator;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -64,7 +64,7 @@ public class SecurityConfig {
             response.setStatus(HttpServletResponse.SC_OK);
             response.setContentType("application/json;charset=UTF-8");
             var authUser = SecurityHelper.getAuthenticatedUser();
-            var message = authManagementObjectCreator.createAccessDeniedResponse(
+            var message = errorObjectCreator.createAccessDeniedResponse(
                     messageSource.get("auth.access.denied.message", request.getRequestURI(), authUser.getEmail()));
             response.getWriter().write(message);
         };

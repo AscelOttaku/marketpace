@@ -1,6 +1,5 @@
 package com.security.helper.objectcreator.impl;
 
-import com.google.gson.Gson;
 import com.security.dto.request.auth.ChangePasswordRequest;
 import com.security.dto.request.auth.RefreshAccessTokenResponse;
 import com.security.dto.response.auth.AuthResponse;
@@ -13,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -20,8 +20,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthManagementObjectCreatorImpl implements AuthManagementObjectCreator {
-
-    Gson gson;
+    PasswordEncoder passwordEncoder;
 
     @Override
     public ResponseEntity<Response> createAuthenticateSuccessResponse(String accessToken,
@@ -46,14 +45,6 @@ public class AuthManagementObjectCreatorImpl implements AuthManagementObjectCrea
     }
 
     @Override
-    public String createAccessDeniedResponse(String message) {
-        log.error(message);
-        return gson.toJson(Response.builder()
-                .message(message)
-                .build());
-    }
-
-    @Override
     public ResponseEntity<UserDetailsResponse> createUserDetailsResponse(User user) {
         return ResponseEntity.ok().body(UserDetailsResponse.builder()
                 .email(user.getEmail())
@@ -65,7 +56,7 @@ public class AuthManagementObjectCreatorImpl implements AuthManagementObjectCrea
     @Override
     public User createUserUpdateModel(User user,
                                       ChangePasswordRequest request) {
-        user.setPassword(request.getNewPassword());
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         return user;
     }
 }

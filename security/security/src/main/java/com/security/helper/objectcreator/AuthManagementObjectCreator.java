@@ -12,8 +12,6 @@ public interface AuthManagementObjectCreator extends ObjectCreator {
 
     ResponseEntity<Response> createRefreshAccessTokenResponse(String accessToken);
 
-    String createAccessDeniedResponse(String message);
-
     ResponseEntity<UserDetailsResponse> createUserDetailsResponse(User user);
 
     User createUserUpdateModel(User user, ChangePasswordRequest request);

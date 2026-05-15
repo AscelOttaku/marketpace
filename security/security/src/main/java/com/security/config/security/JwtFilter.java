@@ -21,6 +21,7 @@ import java.io.IOException;
 public class JwtFilter extends OncePerRequestFilter {
     public static final String BEARER_PREFIX = "Bearer ";
     public static final String HEADER_NAME = "Authorization";
+    public static final String X_REQUEST_ID = "X-Request-ID";
     private final JwtHelper jwtHelper;
     private final AuthHelper authHelper;
     private final UserDetailsService userDetailsService;
@@ -32,7 +33,7 @@ public class JwtFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         String requestPath = request.getRequestURI();
         log.info(messageSource.get("incoming.request"), request.getMethod(), requestPath,
-                request.getQueryString(), request.getHeader("X-Request-ID"));
+                request.getQueryString(), request.getHeader(X_REQUEST_ID));
         if (authHelper.isPathNotExampted(requestPath, request.getMethod())) {
             String authHeader = request.getHeader(HEADER_NAME);
             if (authHelper.hasNotExistAuthHeader(authHeader)) {
@@ -54,7 +55,8 @@ public class JwtFilter extends OncePerRequestFilter {
             }
         } else {
             filterChain.doFilter(request, response);
-            log.info(messageSource.get("outgoing.response"), response.getStatus());
+            log.info(messageSource.get("outgoing.response"), response.getStatus(),
+                    request.getHeader(X_REQUEST_ID));
         }
     }
 
