@@ -8,6 +8,5 @@ import com.market.model.User;
 public interface UserManagementObjectCreator extends ObjectCreator{
     User createUserSaveModel(UserRegisterRequest request);
     User createUserUpdateModel(User existingUser, UserUpdateRequest request);
-
     Account createAccountSaveModel(User user);
 }
