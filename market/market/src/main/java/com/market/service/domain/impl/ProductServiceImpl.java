@@ -4,7 +4,6 @@ import com.market.dto.response.common.PagingContent;
 import com.market.entity.ProductEntity;
 import com.market.exceptions.EntityNotFoundException;
 import com.market.helper.common.MessageSourceHelper;
-import com.market.helper.objectmodifier.ProductObjectModifier;
 import com.market.helper.other.PagingContentWrapper;
 import com.market.helper.validator.domain.DomainValidator;
 import com.market.model.Product;
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Service;
 public class ProductServiceImpl implements ProductService {
 
     MessageSourceHelper messageSource;
-    ProductObjectModifier modifier;
     ProductRepository repository;
     DomainValidator validator;
     ModelMapper mapper;
@@ -53,9 +51,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product takeProduct(Product product,
                                Integer quantity) {
-        var modify = modifier.applyMinusQuantity(product, quantity);
-        validator.validateProduct(modify);
-        var entity = repository.save(mapper.map(modify, ProductEntity.class));
+        product.minusQuantity(quantity);
+        validator.validateProduct(product);
+        var entity = repository.save(mapper.map(product, ProductEntity.class));
         return mapper.map(entity, Product.class);
     }
 }

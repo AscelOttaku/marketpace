@@ -1,5 +1,6 @@
 package com.security.helper.objectcreator;
 
+import com.security.dto.request.auth.ChangePasswordRequest;
 import com.security.dto.response.auth.UserDetailsResponse;
 import com.security.dto.response.common.Response;
 import com.security.model.User;
@@ -14,4 +15,6 @@ public interface AuthManagementObjectCreator extends ObjectCreator {
     String createAccessDeniedResponse(String message);
 
     ResponseEntity<UserDetailsResponse> createUserDetailsResponse(User user);
+
+    User createUserUpdateModel(User user, ChangePasswordRequest request);
 }

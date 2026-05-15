@@ -78,7 +78,7 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
         if (content.length == 0) return null;
         var length = Math.min(content.length, maxBodyLength);
         var body = new String(content, 0, length, StandardCharsets.UTF_8);
-        if (length != content.length) body = body.concat("...[Truncated]");
+        if (length != content.length) body = body.concat("...[truncated]");
         return body;
     }
 

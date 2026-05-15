@@ -28,4 +28,15 @@ public class UserServiceImpl implements UserService {
                         messageSourceHelper.get("user.friendly.name", email),
                         messageSourceHelper.get("not.found.by.user.email.message", email)));
     }
+
+    @Override
+    public User update(User user) {
+        var entity = repository.findById(user.getId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        messageSourceHelper.get("user.friendly.name", user.getEmail()),
+                        messageSourceHelper.get("not.found.by.user.id.message", user.getId())));
+        mapper.map(user, entity);
+        entity = repository.save(entity);
+        return mapper.map(entity, User.class);
+    }
 }

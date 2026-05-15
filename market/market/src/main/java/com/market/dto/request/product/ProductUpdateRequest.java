@@ -1,5 +1,6 @@
 package com.market.dto.request.product;
 
+import com.market.enums.CatalogName;
 import com.market.enums.ProductStatus;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -22,6 +23,7 @@ public class ProductUpdateRequest extends ProductRequest {
     Long id;
 
     ProductStatus status;
+    CatalogName catalogName;
     Integer quantity;
     MultipartFile img;
 }

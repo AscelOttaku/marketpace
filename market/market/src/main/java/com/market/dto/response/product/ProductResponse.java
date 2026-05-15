@@ -1,5 +1,6 @@
 package com.market.dto.response.product;
 
+import com.market.dto.request.catalog.CatalogResponse;
 import com.market.dto.response.user.UserResponse;
 import com.market.enums.ProductStatus;
 import lombok.AllArgsConstructor;
@@ -23,4 +24,5 @@ public class ProductResponse {
     UserResponse user;
     ProductStatus status;
     Integer quantity;
+    CatalogResponse catalog;
 }

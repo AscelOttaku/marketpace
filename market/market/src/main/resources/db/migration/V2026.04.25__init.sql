@@ -12,7 +12,7 @@ CREATE TABLE users
     role       varchar(100),
 
     CONSTRAINT chk_role_check
-        CHECK (role in ('USER'))
+        CHECK (role in ('ROLE_USER'))
 );
 
 CREATE TABLE account

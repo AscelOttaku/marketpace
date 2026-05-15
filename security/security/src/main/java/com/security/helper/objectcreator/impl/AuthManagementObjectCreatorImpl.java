@@ -1,6 +1,7 @@
 package com.security.helper.objectcreator.impl;
 
 import com.google.gson.Gson;
+import com.security.dto.request.auth.ChangePasswordRequest;
 import com.security.dto.request.auth.RefreshAccessTokenResponse;
 import com.security.dto.response.auth.AuthResponse;
 import com.security.dto.response.auth.UserDetailsResponse;
@@ -59,5 +60,12 @@ public class AuthManagementObjectCreatorImpl implements AuthManagementObjectCrea
                 .role(user.getRole())
                 .password(user.getPassword())
                 .build());
+    }
+
+    @Override
+    public User createUserUpdateModel(User user,
+                                      ChangePasswordRequest request) {
+        user.setPassword(request.getNewPassword());
+        return user;
     }
 }

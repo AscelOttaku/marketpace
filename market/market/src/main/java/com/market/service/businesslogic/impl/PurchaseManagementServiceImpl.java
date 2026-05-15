@@ -50,7 +50,7 @@ public class PurchaseManagementServiceImpl implements PurchaseManagementService 
         var user = userService.findById(SecurityHelper.getAuthenticatedUserUserId());
         var product = productService.findById(request.getProductId());
         var account = accountService.findByUserId(user.getId());
-        accountService.withdraw(account, product.getPrice(), request.getQuantity());
+        accountService.withdraw(account, (product.getPrice() * product.getQuantity()));
         product = productService.takeProduct(product, request.getQuantity());
         var saveModel = objectCreator.createSaveModel(request, product, user);
         return objectCreator.createSuccessResponse(service.save(saveModel));

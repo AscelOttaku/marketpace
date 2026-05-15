@@ -47,4 +47,9 @@ public class ProductApi {
                                             @RequestParam(required = false) String search) {
         return productManagementService.findAll(page, size, search);
     }
+
+    @GetMapping("catalogs")
+    public ResponseEntity<Response> findAll() {
+        return productManagementService.findAllCatalogs();
+    }
 }

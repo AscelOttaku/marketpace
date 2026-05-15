@@ -6,8 +6,7 @@ public interface AccountService {
     Account save(Account account);
 
     Account withdraw(Account account,
-                     Double balance,
-                     Integer quantity);
+                     Double balance);
 
     Account findById(Long id);
 

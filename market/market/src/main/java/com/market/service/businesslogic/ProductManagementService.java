@@ -17,4 +17,6 @@ public interface ProductManagementService {
     ResponseEntity<Response> findById(Long id);
 
     ResponseEntity<Response> findAll(int page, int size, String search);
+
+    ResponseEntity<Response> findAllCatalogs();
 }

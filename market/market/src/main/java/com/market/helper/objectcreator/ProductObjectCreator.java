@@ -4,22 +4,29 @@ import com.market.dto.request.product.ProductSaveRequest;
 import com.market.dto.request.product.ProductUpdateRequest;
 import com.market.dto.response.common.PagingContent;
 import com.market.dto.response.common.Response;
+import com.market.model.Catalog;
 import com.market.model.Product;
 import com.market.model.User;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 public interface ProductObjectCreator extends ObjectCreator{
     Product createSaveModel(ProductSaveRequest request,
                             byte[] img,
-                            User user);
+                            User user,
+                            Catalog catalog);
 
     Product createUpdate(Product existing,
                          ProductUpdateRequest request,
-                         byte[] img);
+                         byte[] img,
+                         Catalog catalog);
 
     ResponseEntity<Response> createSuccessResponse(Product product);
 
     ResponseEntity<byte[]> createImgResponse(Product product);
 
     ResponseEntity<Response> createProductsResponse(PagingContent<Product> products);
+
+    ResponseEntity<Response> createCatalogsResponse(List<Catalog> catalogs);
 }

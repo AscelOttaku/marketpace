@@ -1,6 +1,6 @@
 package com.market.model;
 
-import com.market.enums.AccountStatus;
+import com.market.enums.CatalogName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,15 +14,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-public class Account {
+public class Catalog {
     Long id;
-    Double balance;
-    User user;
-    AccountStatus status;
+    CatalogName name;
     LocalDateTime createdAt;
-    LocalDateTime updatedAt;
-
-    public void withdraw(Double balance) {
-        this.balance -= balance;
-    }
 }

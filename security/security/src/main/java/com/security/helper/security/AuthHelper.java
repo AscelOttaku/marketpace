@@ -12,8 +12,10 @@ import java.util.regex.Pattern;
 
 @Component
 public class AuthHelper {
-    private static final List<Map<Pattern, String>> PUBLIC_PATHS = List.of(
-            Map.of(Pattern.compile("^/auth/login$"), HttpMethod.POST.name()));
+    private static final Map<Pattern, String> PUBLIC_PATHS =
+            Map.of(Pattern.compile("^/auth/login$"), HttpMethod.POST.name());
+    private static final List<String> REFRESH_PATHS =
+            List.of("/auth/refresh", "/auth/validate/refresh", "/auth/password");
 
     public void authenticate(UserDetails userDetails) {
         UsernamePasswordAuthenticationToken authentication =
@@ -23,9 +25,8 @@ public class AuthHelper {
     }
 
     public boolean isPathNotExampted(String requestPath, String method) {
-        return PUBLIC_PATHS.stream().noneMatch(map ->
-                map.entrySet().stream().anyMatch(entry ->
-                        entry.getKey().matcher(requestPath).matches() && entry.getValue().equals(method)));
+        return PUBLIC_PATHS.entrySet().stream().noneMatch(entry ->
+                entry.getKey().matcher(requestPath).matches() && entry.getValue().equals(method));
     }
 
     public boolean hasNotExistAuthHeader(String authHeader) {
@@ -33,6 +34,6 @@ public class AuthHelper {
     }
 
     public boolean isRefreshTokenRequest(String requestPath) {
-        return requestPath.equals("/auth/refresh");
+        return REFRESH_PATHS.contains(requestPath);
     }
 }

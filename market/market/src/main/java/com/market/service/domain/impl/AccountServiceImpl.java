@@ -3,7 +3,6 @@ package com.market.service.domain.impl;
 import com.market.entity.AccountEntity;
 import com.market.exceptions.EntityNotFoundException;
 import com.market.helper.common.MessageSourceHelper;
-import com.market.helper.objectmodifier.AccountObjectModifier;
 import com.market.helper.validator.domain.DomainValidator;
 import com.market.model.Account;
 import com.market.repository.AccountRepository;
@@ -22,7 +21,6 @@ public class AccountServiceImpl implements AccountService {
     ModelMapper mapper;
     DomainValidator validator;
     AccountRepository repository;
-    AccountObjectModifier objectModifier;
     MessageSourceHelper messageSourceHelper;
 
     @Override
@@ -33,10 +31,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account withdraw(Account account,
-                            Double balance,
-                            Integer quantity) {
-        var modified = objectModifier.applyWithdrawal(account, balance, quantity);
-        validator.validateAccount(modified);
+                            Double balance) {
+        account.withdraw(balance);
+        validator.validateAccount(account);
         var save = mapper.map(account, AccountEntity.class);
         return mapper.map(repository.save(save), Account.class);
     }

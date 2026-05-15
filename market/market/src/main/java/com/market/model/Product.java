@@ -19,6 +19,11 @@ public class Product {
     Double price;
     User user;
     byte[] img;
+    Catalog catalog;
     ProductStatus status;
     Integer quantity;
+
+    public void minusQuantity(Integer quantity) {
+        this.quantity -= quantity;
+    }
 }

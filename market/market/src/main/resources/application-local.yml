@@ -17,7 +17,7 @@ server:
 
 max:
   body:
-    length: 600
+    length: 200
 
 eureka:
   client:

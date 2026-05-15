@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -25,8 +24,8 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class JwtFilter extends OncePerRequestFilter {
-    private static final List<Map<Pattern, String>> PUBLIC_PATHS = List.of(
-            Map.of(Pattern.compile("^/api/users/register$"), HttpMethod.POST.name()));
+    private static final Map<Pattern, String> PUBLIC_PATHS =
+            Map.of(Pattern.compile("^/api/users/register$"), HttpMethod.POST.name());
 
     AuthenticationService authenticationService;
     MessageSourceHelper messageSourceHelper;
@@ -53,9 +52,8 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     private boolean isPublicPath(String path, String method) {
-        return PUBLIC_PATHS.stream().anyMatch(map ->
-                map.entrySet().stream().anyMatch(entry ->
-                        entry.getKey().matcher(path).matches() && entry.getValue().equals(method)));
+        return PUBLIC_PATHS.entrySet().stream().anyMatch(entry ->
+                        entry.getKey().matcher(path).matches() && entry.getValue().equals(method));
     }
 
     private void handleJwtException(HttpServletResponse response) {

@@ -30,6 +30,14 @@ refresh:
     expiration:
       date: 168
 
+private:
+  key:
+    path: keys/private_key.pem
+
+public:
+  key:
+    path: keys/public_key.pem
+
 eureka:
   client:
     service-url:

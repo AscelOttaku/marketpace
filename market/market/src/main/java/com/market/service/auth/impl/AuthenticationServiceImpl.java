@@ -1,10 +1,9 @@
 package com.market.service.auth.impl;
 
-import com.market.feignclient.SecurityFeignClient;
 import com.market.helper.objectcreator.AuthObjectCreator;
-import com.market.model.AuthUserDetails;
 import com.market.service.auth.AuthenticationService;
 import com.market.service.domain.UserService;
+import com.market.service.feignclient.SecurityFeignClient;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

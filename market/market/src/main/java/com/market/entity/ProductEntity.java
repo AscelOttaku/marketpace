@@ -37,6 +37,10 @@ public class ProductEntity {
     @JoinColumn(name = "user_id")
     UserEntity user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "catalog_id", nullable = false)
+    CatalogEntity catalog;
+
     byte[] img;
 
     @Enumerated(EnumType.STRING)

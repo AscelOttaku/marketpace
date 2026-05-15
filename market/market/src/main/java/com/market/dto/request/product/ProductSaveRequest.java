@@ -1,5 +1,6 @@
 package com.market.dto.request.product;
 
+import com.market.enums.CatalogName;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,9 @@ public class ProductSaveRequest extends ProductRequest {
     @NotNull(message = "поле 'quantity' обязательна")
     @Positive(message = "поле 'quantity' должно быть позитивным")
     Integer quantity;
+
+    @NotNull(message = "поле 'catalogName' обязательно")
+    CatalogName catalogName;
 
     @NotNull(message = "'img' обязателен")
     MultipartFile img;
