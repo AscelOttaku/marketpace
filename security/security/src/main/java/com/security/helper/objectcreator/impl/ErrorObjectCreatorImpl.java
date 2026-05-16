@@ -25,4 +25,12 @@ public class ErrorObjectCreatorImpl implements ErrorObjectCreator {
                 .message(message)
                 .build());
     }
+
+    @Override
+    public String createUnauthorizedResponse(String message) {
+        log.error(message);
+        return gson.toJson(Response.builder()
+                .message(message)
+                .build());
+    }
 }
